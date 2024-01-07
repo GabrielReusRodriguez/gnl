@@ -6,7 +6,7 @@
 /*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 21:04:29 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/06 02:28:54 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/07 01:08:36 by greus-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,11 @@ int	main(int argc, char **argv)
 	{
 		printf("Error al abrir el descriptor de fichero");
 		return (1);
-	}	
-	line= get_next_line(fd);
-	printf("LINE: _%s_\n\n",line);
-	line= get_next_line(fd);
-	printf("LINE: _%s_\n\n",line);
-	line= get_next_line(fd);
-	printf("LINE: _%s_\n\n",line);
-	line= get_next_line(fd);
-	printf("LINE: _%s_\n\n",line);
-	line= get_next_line(fd);
-	printf("LINE: _%s_\n\n",line);
-	line= get_next_line(fd);
-	printf("LINE: _%s_\n\n",line);
-	close(fd);
-	
+	}
+	while((line= get_next_line(fd)) != NULL)
+	{
+		printf("<LINE>_%s_</LINE>\n\n",line);
+	}
+	close(fd);	
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:50:04 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/06 02:30:30 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/07 01:14:02 by greus-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,17 @@
 #include <unistd.h>
 #include "get_next_line.h"
 
-t_buffer    *ft_update_buffer(t_buffer *buffer, char *src, size_t bytes)
+int	ft_update_buffer(int fd, t_buffer *buffer)
+{
+	int		bytes_read;
+	char	temp_buffer[BUFFER_SIZE];
+
+	bytes_read = read(fd, temp_buffer, BUFFER_SIZE);
+	ft_add_text_2_buffer(buffer, temp_buffer, bytes_read);
+	return (bytes_read);
+}
+
+t_buffer	*ft_add_text_2_buffer(t_buffer *buffer, char *src, size_t bytes)
 {
 	char	*new_ptr;
 	char	*old_ptr;
@@ -40,7 +50,49 @@ t_buffer    *ft_update_buffer(t_buffer *buffer, char *src, size_t bytes)
 	buffer->content = new_ptr;
 	free(old_ptr);
 	buffer->size = buffer->size + bytes;
-	return  (buffer);
+	return (buffer);
+}
+
+
+
+char	*ft_strndup(char *src, int to)
+{
+	int		i;
+	char	*dup;
+
+	i = 0;
+	dup = (char *)malloc(to + 1);
+	if (dup == NULL)
+		return (NULL);
+	while (i < to)
+	{
+		dup[i] = src[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+
+char	*shift_buffer(t_buffer *buffer, size_t pos_char)
+{
+	size_t	i;
+	char	*old_content;
+	char	*new_content;
+
+	i = 0;
+	new_content = (char *)malloc(buffer->size - pos_char);
+	if (new_content == NULL)
+		return (NULL);
+	old_content = buffer->content;
+	while (i < buffer->size - pos_char)
+	{
+		new_content[i] = buffer->content[pos_char + i];
+		i++;
+	}
+	buffer->content = new_content;
+	buffer->size = buffer->size - pos_char;
+	free (old_content);
+	return (new_content);
 }
 
 int	find_char(t_buffer *buffer, char c)
@@ -56,57 +108,4 @@ int	find_char(t_buffer *buffer, char c)
 		return (i);
 	else
 		return (-1);
-}
-
-t_buffer	*init_buffer(t_buffer *buffer)
-{
-	if (buffer == NULL)
-	{
-		buffer = (t_buffer *)malloc(sizeof(t_buffer));
-		if (buffer == NULL)
-			return (NULL);
-		buffer->size = 0;
-		buffer->content = (char *)malloc(buffer->size);
-	}
-	return (buffer);
-}
-
-char	*ft_strndup(char *src, int to)
-{
-	int		i;
-	char	*dup;
-	
-	i = 0;
-	dup = (char *)malloc(to + 1);
-	if (dup == NULL)
-		return (NULL);
-	while (i < to)
-	{
-		dup[i] = src[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
-
-char *shift_buffer(t_buffer *buffer, size_t pos_char)
-{
-	size_t	i;
-	char	*old_content;
-	char	*new_content;
-	
-	i = 0;
-	new_content = (char *)malloc(buffer->size - pos_char);
-	if (new_content == NULL)
-		return (NULL);
-	old_content = buffer->content;
-	while (i < buffer->size - pos_char)
-	{
-		new_content[i] = buffer->content[pos_char + i];
-		i++;
-	}
-	buffer->content = new_content;
-	buffer->size = buffer->size - pos_char;
-	free (old_content);
-	return (new_content);
 }
