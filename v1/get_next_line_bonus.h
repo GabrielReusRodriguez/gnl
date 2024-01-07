@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:42:31 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/07 23:45:35 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/01/07 03:02:18 by greus-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ typedef struct s_buffer
 	size_t	size;
 }	t_buffer;
 
-char	*get_next_line(int fd);
-char	*init_buffer(char *buffer);
-size_t	ft_strlen(char *str);
-char	*ft_strjoin(char *buffer, char *read);
-char	*ft_strchr(char *buffer, char c);
-char	*ft_substr(char *buffer, size_t start, size_t end);
+char		*get_next_line(int fd);
+int			find_char(t_buffer *buffer, char c);
+int			ft_update_buffer(int fd, t_buffer *buffer);
+t_buffer	*ft_add_text_2_buffer(t_buffer *buffer, char *src, size_t bytes);
+char		*shift_buffer(t_buffer *buffer, size_t pos_char);
+char		*ft_strndup(char *src, int to);
+t_buffer	*init_buffer(t_buffer *buffer);
 
 #endif

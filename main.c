@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
+/*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 21:04:29 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/07 03:13:53 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/07 23:33:44 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,6 @@ int	main(int argc, char **argv)
 	{
 		fd = 1;
 	}
-	/*
-	while((line= get_next_line(fd)) != NULL)
-	{
-		printf("<LINE>_%s_</LINE>\n\n",line);
-		free(line);
-	}
-	*/
 	while((line= get_next_line(fd)) != NULL)
 	{
 		printf("<LINE>_%s_</LINE>\n\n",line);

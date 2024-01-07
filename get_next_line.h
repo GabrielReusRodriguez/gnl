@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
+/*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:42:31 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/07 02:31:50 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/07 23:45:12 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,11 @@
 
 # include <stddef.h>
 
-typedef struct s_buffer
-{
-	char	*content;
-	size_t	size;
-}	t_buffer;
-
-char		*get_next_line(int fd);
-int			find_char(t_buffer *buffer, char c);
-int			ft_update_buffer(int fd, t_buffer *buffer);
-t_buffer	*ft_add_text_2_buffer(t_buffer *buffer, char *src, size_t bytes);
-char		*shift_buffer(t_buffer *buffer, size_t pos_char);
-char		*ft_strndup(char *src, int to);
-t_buffer	*init_buffer(t_buffer *buffer);
+char	*get_next_line(int fd);
+char	*init_buffer(char *buffer);
+size_t	ft_strlen(char *str);
+char	*ft_strjoin(char *buffer, char *read);
+char	*ft_strchr(char *buffer, char c);
+char	*ft_substr(char *buffer, size_t start, size_t end);
 
 #endif

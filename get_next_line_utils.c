@@ -3,125 +3,91 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
+/*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:50:04 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/07 03:21:30 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/07 23:44:31 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <unistd.h>
 #include "get_next_line.h"
 
 /*
-Se encarga de leer del File descriptor y de añadirel texto leido al 
-buffer.
+Obtiene la longitud de un string
 */
-int	ft_update_buffer(int fd, t_buffer *buffer)
+size_t	ft_strlen(char *str)
 {
-	int		bytes_read;
-	char	temp_buffer[BUFFER_SIZE];
+	size_t	len;
 
-	bytes_read = read(fd, temp_buffer, BUFFER_SIZE);
-	ft_add_text_2_buffer(buffer, temp_buffer, bytes_read);
-	return (bytes_read);
+	len = 0;
+	while (str[len] != '\0')
+		len++;
+	return (len);
 }
 
 /*
-Se encarga de añadir el texto leido en el read al buffer que tenemos 
-, previamente hace un malloc de un nuevo puntero y un free del antiguo 
-para evitar memory leaks. 
-Ojo xq se reserva memoria para buffer>size +bytes + 1 ya que hay que poner el \0
+Une los punteros que le pasamos por parámetro
 */
-t_buffer	*ft_add_text_2_buffer(t_buffer *buffer, char *src, size_t bytes)
+char	*ft_strjoin(char *buffer, char *read)
 {
-	char	*new_ptr;
-	char	*old_ptr;
+	char	*joined;
+	size_t	size_buffer;
+	size_t	size_read;
 	size_t	i;
 
-	new_ptr = (char *)malloc(buffer->size + bytes + 1);
-	if (new_ptr == NULL)
+	size_buffer = ft_strlen(buffer);
+	size_read = ft_strlen(read);
+	joined = (char *)malloc(size_buffer + size_read + 1);
+	if (joined == NULL)
 		return (NULL);
 	i = 0;
-	while (i < buffer->size)
+	while (i < size_buffer)
 	{
-		new_ptr[i] = buffer->content[i];
+		joined[i] = buffer[i];
 		i++;
 	}
 	i = 0;
-	while (i < bytes)
+	while (i < size_read)
 	{
-		new_ptr[buffer->size + i] = src[i];
+		joined[size_buffer + i] = read[i];
 		i++;
 	}
-	new_ptr[buffer->size + bytes] = '\0';
-	old_ptr = buffer->content;
-	buffer->content = new_ptr;
-	free(old_ptr);
-	buffer->size = buffer->size + bytes;
-	return (buffer);
-}
-
-/*
-Duplica el puntero hasta la posicion "to" haciendo un malloc.
-*/
-char	*ft_strndup(char *src, int to)
-{
-	int		i;
-	char	*dup;
-
-	i = 0;
-	dup = (char *)malloc(to + 1);
-	if (dup == NULL)
-		return (NULL);
-	while (i < to)
-	{
-		dup[i] = src[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
-
-/*
-Crea un puntero con el contenido de las poiciones pos_char hasta el final.
-*/
-char	*shift_buffer(t_buffer *buffer, size_t pos_char)
-{
-	size_t	i;
-	char	*old_content;
-	char	*new_content;
-
-	i = 0;
-	new_content = (char *)malloc(buffer->size - pos_char + 1);
-	if (new_content == NULL)
-		return (NULL);
-	old_content = buffer->content;
-	while (i < buffer->size - pos_char)
-	{
-		new_content[i] = buffer->content[pos_char + i];
-		i++;
-	}
-	new_content[buffer->size - pos_char] = '\0';
-	buffer->content = new_content;
-	buffer->size = buffer->size - pos_char;
-	free (old_content);
-	return (new_content);
+	joined[size_buffer + size_read] = '\0';
+	free(buffer);
+	return (joined);
 }
 
 /*
 Check si encuentra el caracter c en el buffer.
 */
-int	find_char(t_buffer *buffer, char c)
+char	*ft_strchr(char *buffer, char c)
 {
-	size_t	i;
+	while (*buffer != '\0')
+	{
+		if (*buffer == c)
+			return (buffer);
+		buffer++;
+	}
+	return (NULL);
+}
 
+char	*ft_substr(char *buffer, size_t start, size_t end)
+{
+	size_t	size;
+	size_t	i;
+	char	*substr;
+
+	size = end - start;
+	substr = (char *)malloc(size + 1);
+	if (substr == NULL)
+		return (NULL);
 	i = 0;
-	while (i < buffer->size && buffer->content[i] != c)
+	while (i < size)
+	{
+		substr[i] = buffer[start + i];
 		i++;
-	if (i < buffer->size && buffer->content[i] == c)
-		return (i);
-	else
-		return (-1);
+	}
+	substr[i] = '\0';
+	return (substr);
 }
