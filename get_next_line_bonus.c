@@ -6,7 +6,7 @@
 /*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:41:44 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/07 03:21:10 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/07 02:12:57 by greus-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ t_buffer	*init_buffer(t_buffer *buffer)
 		buffer = (t_buffer *)malloc(sizeof(t_buffer));
 		if (buffer == NULL)
 			return (NULL);
-		buffer->size = 0;
-		buffer->content = (char *)malloc(buffer->size + 1);
+		buffer->size = 1;
+		buffer->content = (char *)malloc(buffer->size);
 		buffer->content[0] = '\0';
 	}
 	return (buffer);
