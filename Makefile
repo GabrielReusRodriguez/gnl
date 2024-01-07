@@ -6,7 +6,7 @@ INC_FOLDER	= .
 BIN_FOLDER  = ./bin
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra
+CFLAGS		= -Wall -Werror -Wextra -ggdb3 
 DFLAGS		= -D BUFFER_SIZE=30
 
 all: ${NAME}

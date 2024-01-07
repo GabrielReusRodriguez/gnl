@@ -6,11 +6,10 @@
 /*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:50:04 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/07 01:14:02 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/07 02:13:03 by greus-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include "get_next_line.h"
@@ -52,8 +51,6 @@ t_buffer	*ft_add_text_2_buffer(t_buffer *buffer, char *src, size_t bytes)
 	buffer->size = buffer->size + bytes;
 	return (buffer);
 }
-
-
 
 char	*ft_strndup(char *src, int to)
 {
@@ -101,10 +98,8 @@ int	find_char(t_buffer *buffer, char c)
 
 	i = 0;
 	while (i < buffer->size && buffer->content[i] != c)
-	{
 		i++;
-	}
-	if (buffer->content[i] == c)
+	if (i < buffer->size && buffer->content[i] == c)
 		return (i);
 	else
 		return (-1);
