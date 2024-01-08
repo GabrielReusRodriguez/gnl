@@ -6,12 +6,11 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:50:04 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/07 23:44:31 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/01/08 00:18:17 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "get_next_line.h"
 
 /*
 Obtiene la longitud de un string

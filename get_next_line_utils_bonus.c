@@ -3,104 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
+/*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:50:04 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/07 02:31:30 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/08 00:55:36 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-int	ft_update_buffer(int fd, t_buffer *buffer)
+t_buffer	*ft_create_buffer(int fd)
 {
-	int		bytes_read;
-	char	temp_buffer[BUFFER_SIZE];
+	t_buffer	*buffer;
 
-	bytes_read = read(fd, temp_buffer, BUFFER_SIZE);
-	ft_add_text_2_buffer(buffer, temp_buffer, bytes_read);
-	return (bytes_read);
-}
-
-t_buffer	*ft_add_text_2_buffer(t_buffer *buffer, char *src, size_t bytes)
-{
-	char	*new_ptr;
-	char	*old_ptr;
-	size_t	i;
-
-	new_ptr = (char *)malloc(buffer->size + bytes);
-	if (new_ptr == NULL)
+	buffer = (t_buffer *)malloc(sizeof(t_buffer));
+	if (buffer == NULL)
 		return (NULL);
-	i = 0;
-	while (i < buffer->size)
-	{
-		new_ptr[i] = buffer->content[i];
-		i++;
-	}
-	i = 0;
-	while (i < bytes)
-	{
-		new_ptr[buffer->size + i] = src[i];
-		i++;
-	}
-	old_ptr = buffer->content;
-	buffer->content = new_ptr;
-	free(old_ptr);
-	buffer->size = buffer->size + bytes;
+	buffer->content = (char *)malloc(1);
+	if (buffer->content == NULL)
+		return (NULL);
+	buffer->content[0] = '\0';
+	buffer->fd = fd;
+	buffer->next = NULL;
 	return (buffer);
 }
 
-char	*ft_strndup(char *src, int to)
+void	ft_add_back(t_buffer **buffer, t_buffer *new_buffer)
 {
-	int		i;
-	char	*dup;
-
-	i = 0;
-	dup = (char *)malloc(to + 1);
-	if (dup == NULL)
-		return (NULL);
-	while (i < to)
+	t_buffer	*node;
+	
+	if(*buffer == NULL)
 	{
-		dup[i] = src[i];
-		i++;
+		*buffer = new_buffer;
+		return ;
 	}
-	dup[i] = '\0';
-	return (dup);
+	node = *buffer;
+	while (node->next != NULL)
+		node = node->next;
+	node->next = new_buffer;
 }
 
-char	*shift_buffer(t_buffer *buffer, size_t pos_char)
+t_buffer	*ft_search(int fd , t_buffer *buffer)
 {
-	size_t	i;
-	char	*old_content;
-	char	*new_content;
-
-	i = 0;
-	new_content = (char *)malloc(buffer->size - pos_char);
-	if (new_content == NULL)
+	t_buffer	*node;
+	
+	if (buffer == NULL)
 		return (NULL);
-	old_content = buffer->content;
-	while (i < buffer->size - pos_char)
+	node = buffer;
+	while(node->next != NULL)
 	{
-		new_content[i] = buffer->content[pos_char + i];
-		i++;
+		if (node->fd == fd)
+			return (node);
+		node = node->next;
 	}
-	buffer->content = new_content;
-	buffer->size = buffer->size - pos_char;
-	free (old_content);
-	return (new_content);
-}
-
-int	find_char(t_buffer *buffer, char c)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < buffer->size && buffer->content[i] != c)
-		i++;
-	if (i < buffer->size && buffer->content[i] == c)
-		return (i);
+	if (node->fd == fd)
+		return (node);
 	else
-		return (-1);
+		return (NULL);
 }

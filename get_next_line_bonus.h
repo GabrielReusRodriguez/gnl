@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:42:31 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/07 23:45:35 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/01/08 00:39:49 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,14 @@
 
 typedef struct s_buffer
 {
-	char	*content;
-	size_t	size;
+	int                 fd;
+	char	            *content;
+	struct s_buffer		*next;
 }	t_buffer;
 
-char	*get_next_line(int fd);
-char	*init_buffer(char *buffer);
-size_t	ft_strlen(char *str);
-char	*ft_strjoin(char *buffer, char *read);
-char	*ft_strchr(char *buffer, char c);
-char	*ft_substr(char *buffer, size_t start, size_t end);
+t_buffer	*ft_create_buffer(int fd);
+void		ft_add_back(t_buffer **buffer, t_buffer *new_buffer);
+t_buffer	*ft_search(int fd , t_buffer	*buffer);
+
 
 #endif

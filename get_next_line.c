@@ -6,12 +6,11 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:41:44 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/07 23:42:23 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/01/07 23:48:12 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include "get_next_line.h"
 
