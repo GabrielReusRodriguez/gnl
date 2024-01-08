@@ -6,12 +6,13 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:41:44 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/08 01:13:10 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/01/08 01:15:46 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "get_next_line_bonus.h"
+
 
 /*
 Function to init the buffer
