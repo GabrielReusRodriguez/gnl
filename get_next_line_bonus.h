@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:42:31 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/08 00:39:49 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/01/08 21:26:36 by greus-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@
 
 typedef struct s_buffer
 {
-	int                 fd;
-	char	            *content;
+	int					fd;
+	char				*content;
 	struct s_buffer		*next;
 }	t_buffer;
 
+char		*get_next_line(int fd);
 t_buffer	*ft_create_buffer(int fd);
 void		ft_add_back(t_buffer **buffer, t_buffer *new_buffer);
-t_buffer	*ft_search(int fd , t_buffer	*buffer);
-
+t_buffer	*ft_search(int fd, t_buffer	*buffer);
 
 #endif

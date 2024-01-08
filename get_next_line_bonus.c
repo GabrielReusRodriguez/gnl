@@ -3,32 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
+/*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:41:44 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/08 01:15:46 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/01/08 21:25:15 by greus-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
 #include <stdlib.h>
+#include "get_next_line.h"
 #include "get_next_line_bonus.h"
-
 
 /*
 Function to init the buffer
 */
-t_buffer	*init_buffer(t_buffer *buffer_list, int fd)
+t_buffer	*bonus_init_buffer(t_buffer *buffer_list, int fd)
 {
 	t_buffer	*new_buffer;
-	
+
 	if (BUFFER_SIZE <= 0)
 		return (NULL);
+	if (buffer_list == NULL)
+	{
+		new_buffer = ft_create_buffer(fd);
+		ft_add_back(&buffer_list, new_buffer);
+		return (new_buffer);
+	}
 	if (ft_search(fd, buffer_list) == NULL)
 	{
 		new_buffer = ft_create_buffer(fd);
 		if (new_buffer == NULL)
 			return (NULL);
-		ft_add_back(buffer_list, new_buffer);
+		ft_add_back(&buffer_list, new_buffer);
 	}
 	return (buffer_list);
 }
@@ -87,13 +94,13 @@ char	*ft_update_buffer(char *buffer, char c)
 
 char	*get_next_line(int fd)
 {
-	int				    bytes_read;
+	int					bytes_read;
 	static t_buffer		*buffer_list;
 	t_buffer			*buffer;
-	char			    read_buffer[BUFFER_SIZE + 1];
-	char			    *line;
+	char				read_buffer[BUFFER_SIZE + 1];
+	char				*line;
 
-	buffer_list = init_buffer(buffer_list, fd);
+	buffer_list = bonus_init_buffer(buffer_list, fd);
 	if (buffer_list == NULL)
 		return (NULL);
 	buffer = ft_search(fd, buffer_list);

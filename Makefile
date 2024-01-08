@@ -1,5 +1,5 @@
 NAME		= get_next_line.out
-BONUS		= get_nex_line_bonus.out
+BONUS		= get_next_line_bonus.out
 
 INC_FOLDER	= .
 BIN_FOLDER  = ./bin
@@ -12,13 +12,15 @@ SRC_FILES	= get_next_line.c get_next_line_utils.c main.c
 OBJ_FILES	= $(SRC_FILES:%.c=${BIN_FOLDER}/%.o)
 
 BONUS_SRC_FILES	= get_next_line_bonus.c get_next_line_utils.c get_next_line_utils_bonus.c main_bonus.c
-BONUS_OBJ_FILES	= $(SRC_FILES:%.c=${BIN_FOLDER}/%.o)
+BONUS_OBJ_FILES	= $(BONUS_SRC_FILES:%.c=${BIN_FOLDER}/%.o)
 
 
 all: ${NAME}
 
 ${NAME}: ${OBJ_FILES}
 	${CC} ${CFLAGS} -o ${NAME} $^
+
+bonus: ${BONUS}
 
 ${BONUS}: ${BONUS_OBJ_FILES}
 	${CC} ${CFLAGS} -o ${BONUS} $^
@@ -31,8 +33,8 @@ clean:
 	rm -f ${BIN_FOLDER}/*
 
 fclean: clean 
-	rm -f ${NAME}
+	rm -f ./*.out
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re bonus
