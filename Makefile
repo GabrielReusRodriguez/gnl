@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/01/13 02:39:39 by greus-ro          #+#    #+#              #
+#    Updated: 2024/01/13 02:41:03 by greus-ro         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME		= get_next_line.out
 BONUS		= get_next_line_bonus.out
 
@@ -5,13 +17,16 @@ INC_FOLDER	= .
 BIN_FOLDER  = ./bin
 
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -ggdb3 
+CFLAGS		= -Wall -Werror -Wextra -ggdb3 -MMD -MP
 DFLAGS		= -D BUFFER_SIZE=30
 
 SRC_FILES	= get_next_line.c get_next_line_utils.c main.c
 OBJ_FILES	= $(SRC_FILES:%.c=${BIN_FOLDER}/%.o)
 
-BONUS_SRC_FILES	= get_next_line_bonus.c get_next_line_utils.c get_next_line_utils_bonus.c main_bonus.c
+BONUS_SRC_FILES	=	get_next_line_bonus.c 		\
+					get_next_line_utils.c 		\
+					get_next_line_utils_bonus.c \
+					main_bonus.c
 BONUS_OBJ_FILES	= $(BONUS_SRC_FILES:%.c=${BIN_FOLDER}/%.o)
 
 
