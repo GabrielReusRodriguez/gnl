@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:36:38 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/23 01:39:43 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/23 02:52:01 by greus-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
+# endif
+
+# ifndef NUM_FDS
+#  define NUM_FDS 1024
 # endif
 
 # include <stddef.h>
@@ -29,6 +33,6 @@ char		*get_line_from_buffer(char **buffer, int num_bytes);
 char		*read_line(char **buffer, int fd);
 void		*update_buffer(char *buffer, char *tmp_buff, int num_bytes);
 char		*get_next_line(int fd);
-char		*get_buffer(char *buffer);
+char		**init_buffers(char **buffers);
 
 #endif

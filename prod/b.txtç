@@ -1,0 +1,56 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                Welcome to Francinette, a 42 tester framework!                ║
+╚═══════════════════════╦══════════════════════════════╦═══════════════════════╝
+                        ║         get_next_line        ║
+                        ╚══════════════════════════════╝
+⠋ Preparing framework⠙ Preparing framework✔ Preparing framework
+⠋ Executing: norminette⠙ Executing: norminette⠹ Executing: norminette⠸ Executing: norminette✖ Executing: norminette
+get_next_line_utils.c: OK!
+get_next_line_utils_bonus.c: OK!
+get_next_line.h: OK!
+get_next_line_bonus.c: Error!
+Error: SPACE_AFTER_KW       (line:  27, col:   9):	Missing space after keyword
+Error: SPC_BFR_PAR          (line:  27, col:  11):	Missing space before parenthesis (brace/bracket)
+Error: SPACE_AFTER_KW       (line:  30, col:   9):	Missing space after keyword
+Error: SPC_BFR_PAR          (line:  30, col:  14):	Missing space before parenthesis (brace/bracket)
+Error: NO_SPC_BFR_PAR       (line:  30, col:  27):	Extra space before parenthesis (brace/bracket)
+Error: WRONG_SCOPE_COMMENT  (line:  44, col:   5):	Comment is invalid in this scope
+Error: SPACE_AFTER_KW       (line: 120, col:   5):	Missing space after keyword
+Error: SPC_BFR_PAR          (line: 120, col:   7):	Missing space before parenthesis (brace/bracket)
+get_next_line.c: Error!
+Error: WRONG_SCOPE_COMMENT  (line:  37, col:   5):	Comment is invalid in this scope
+get_next_line_bonus.h: Error!
+Error: CONSECUTIVE_SPC      (line:  36, col:   5):	Two or more consecutives spaces
+Error: SPACE_REPLACE_TAB    (line:  36, col:   5):	Found space when expecting tab
+bonus/get_next_line_utils_bonus.c: OK!
+bonus/get_next_line_bonus.c: Error!
+Error: SPACE_AFTER_KW       (line:  27, col:   9):	Missing space after keyword
+Error: SPC_BFR_PAR          (line:  27, col:  11):	Missing space before parenthesis (brace/bracket)
+Error: SPACE_AFTER_KW       (line:  30, col:   9):	Missing space after keyword
+Error: SPC_BFR_PAR          (line:  30, col:  14):	Missing space before parenthesis (brace/bracket)
+Error: NO_SPC_BFR_PAR       (line:  30, col:  27):	Extra space before parenthesis (brace/bracket)
+Error: WRONG_SCOPE_COMMENT  (line:  44, col:   5):	Comment is invalid in this scope
+Error: SPACE_AFTER_KW       (line: 119, col:   5):	Missing space after keyword
+Error: SPC_BFR_PAR          (line: 119, col:   7):	Missing space before parenthesis (brace/bracket)
+Error: SPACE_AFTER_KW       (line: 125, col:   9):	Missing space after keyword
+Error: SPC_BFR_PAR          (line: 125, col:  11):	Missing space before parenthesis (brace/bracket)
+bonus/get_next_line_bonus.h: Error!
+Error: CONSECUTIVE_SPC      (line:  36, col:   5):	Two or more consecutives spaces
+Error: SPACE_REPLACE_TAB    (line:  36, col:   5):	Found space when expecting tab
+
+[33m[Static = 1]
+[35m[Bonus]
+^X^Cmake: *** [Makefile:63: m1bonus] Interrupción
+
+To see the tests open: /home/gabriel/francinette/tests/get_next_line/gnlTester/tests/mandatory.cpp
+
+[33mBONUS!
+^Cmake: [Makefile:29: bonus] Interrupción (no tiene efecto)
+Want some more thorough tests? run 'francinette --strict'.
+
+Summary: 
+
+Norminette Errors: get_next_line_bonus.c, get_next_line.c, get_next_line_bonus.h, bonus/get_next_line_bonus.c, bonus/get_next_line_bonus.h
+
+Failed tests: gnlTester
+

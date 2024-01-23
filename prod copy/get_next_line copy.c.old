@@ -6,27 +6,28 @@
 /*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:34:45 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/23 02:53:46 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/22 08:01:18 by greus-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include "get_next_line.h"
 
 char	*get_buffer(char *buffer)
 {
-	char	*buf;
-
-	buf = buffer;
-	if (buf == NULL)
+	char	*new_buffer;
+	
+	new_buffer = buffer;
+	if (buffer == NULL)
 	{
-		buf = (char *)malloc(1);
-		if (buf == NULL)
+		new_buffer = (char *)malloc(1);
+		if (new_buffer == NULL)
 			return (NULL);
-		*(buf) = '\0';
+		new_buffer[0] = '\0';
 	}
-	return (buf);
+	return (new_buffer);
 }
 
 void	*update_buffer(char *buffer, char *tmp_buff, int num_bytes)
@@ -46,7 +47,7 @@ void	*update_buffer(char *buffer, char *tmp_buff, int num_bytes)
 	return (new_buffer);
 }
 
-char	*get_line_from_buffer(char	**buffer, int num_bytes)
+char	*get_line_from_buffer(char	*buffer, int num_bytes)
 {
 	char	*line;
 	int		pos;
@@ -54,49 +55,82 @@ char	*get_line_from_buffer(char	**buffer, int num_bytes)
 	size_t	len;
 
 	line = NULL;
-	len = ft_strlen(*buffer);
-	pos = ft_strchr(*buffer, "\n\r");
-	if (pos >= 0)
-	{
-		line = ft_substr(*buffer, 0, pos + 1);
-		aux = *buffer;
-		*buffer = ft_substr(*buffer, pos + 1, len);
-		free (aux);
-		return (line);
-	}
+	len = ft_strlen(buffer);
 	if (num_bytes == 0)
 	{
-		line = ft_substr(*buffer, 0, len);
-		*buffer = free_ptr(*buffer);
+		line = ft_substr(buffer, 0, len);
+		free(buffer);
+		buffer = NULL;
+		return (line);
+	}
+	pos = ft_strchr(buffer, "\n\r");
+	if (pos >= 0)
+	{
+		line = ft_substr(buffer, 0, pos);
+		if (line == NULL)
+			return (NULL);
+		aux = buffer;
+		buffer = ft_substr(buffer, pos + 1, len);
+		free (aux);
 	}
 	return (line);
 }
 
-char	*read_line(char **buffer, int fd)
+/*
+char	*get_line_from_buffer(char	*buffer, int num_bytes)
 {
-	char	*chr_buffer;
+	char	*line;
+	int		pos;
+	char	*aux;
+	size_t	len;
+
+	len = ft_strlen(buffer);
+	if (num_bytes == 0)
+	{
+		line = ft_substr(buffer, 0, len);
+		free(buffer);
+		return (line);
+	}
+	pos = ft_strchr(buffer, "\n\r");
+	if (pos >= 0)
+	{
+		line = ft_substr(buffer, 0, pos);
+		if (line == NULL)
+		{
+			free (buffer);
+			buffer = NULL;
+			return (NULL);
+		}
+		aux = buffer;
+		buffer = ft_substr(buffer, pos, len);
+		free (aux);
+		return (line);
+	}
+	else
+		return (NULL);
+}
+*/
+char	*read_line(char *buffer, int fd)
+{
+	char	chr_buffer[BUFFER_SIZE];
 	char	*line;
 	int		num_bytes;
 
-	chr_buffer = (char *)malloc(BUFFER_SIZE + 1);
-	if (chr_buffer == NULL)
-		return (NULL);
 	line = NULL;
 	while (line == NULL)
 	{
+		ft_bzero(chr_buffer, BUFFER_SIZE);
 		num_bytes = read(fd, chr_buffer, BUFFER_SIZE);
 		if (num_bytes < 0)
-			return (free_ptr(chr_buffer));
-		else
+			return (NULL);
+		if (num_bytes > 0)
 		{
-			chr_buffer[num_bytes] = '\0';
-			*buffer = update_buffer(*buffer, chr_buffer, num_bytes);
-			if (*buffer == NULL)
-				return (free_ptr(chr_buffer));
+			buffer = update_buffer(buffer, chr_buffer, num_bytes);
+			if (buffer == NULL)
+				return (NULL);
 		}
 		line = get_line_from_buffer(buffer, num_bytes);
 	}
-	free(chr_buffer);
 	return (line);
 }
 
@@ -108,14 +142,19 @@ char	*get_next_line(int fd)
 	buffer = get_buffer(buffer);
 	if (buffer == NULL)
 		return (NULL);
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		line = NULL;
-	else
-		line = read_line(&buffer, fd);
+	if (fd < 0 && BUFFER_SIZE <= 0)
+	{
+		free (buffer);
+		buffer = NULL;
+		return (NULL);
+	}
+	line = read_line(buffer, fd);
 	if (line == NULL)
-		buffer = free_ptr(buffer);
-	if (line != NULL && ft_strlen(line) == 0)
-		line = free_ptr(line);
+	{	
+		free (buffer);
+		buffer = NULL;
+		return (NULL);
+	}
 	return (line);
 }
 

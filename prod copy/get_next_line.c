@@ -6,7 +6,7 @@
 /*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:34:45 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/23 02:53:46 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/22 13:48:01 by greus-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,15 @@
 #include <unistd.h>
 #include "get_next_line.h"
 
-char	*get_buffer(char *buffer)
+void	get_buffer(char **buffer)
 {
-	char	*buf;
-
-	buf = buffer;
-	if (buf == NULL)
+	if (*buffer == NULL)
 	{
-		buf = (char *)malloc(1);
-		if (buf == NULL)
-			return (NULL);
-		*(buf) = '\0';
+		*buffer = (char *)malloc(1);
+		if (*buffer == NULL)
+			return ;
+		**(buffer) = '\0';
 	}
-	return (buf);
 }
 
 void	*update_buffer(char *buffer, char *tmp_buff, int num_bytes)
@@ -34,6 +30,7 @@ void	*update_buffer(char *buffer, char *tmp_buff, int num_bytes)
 	char	*new_buffer;
 
 	new_buffer = NULL;
+	get_buffer(&buffer);
 	if (num_bytes > 0)
 	{
 		new_buffer = ft_strjoin(buffer, tmp_buff);
@@ -67,7 +64,8 @@ char	*get_line_from_buffer(char	**buffer, int num_bytes)
 	if (num_bytes == 0)
 	{
 		line = ft_substr(*buffer, 0, len);
-		*buffer = free_ptr(*buffer);
+		free(*buffer);
+		*buffer = NULL;
 	}
 	return (line);
 }
@@ -105,17 +103,27 @@ char	*get_next_line(int fd)
 	static char			*buffer;
 	char				*line;
 
-	buffer = get_buffer(buffer);
+	get_buffer(&buffer);
 	if (buffer == NULL)
 		return (NULL);
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		line = NULL;
-	else
-		line = read_line(&buffer, fd);
-	if (line == NULL)
-		buffer = free_ptr(buffer);
+	if (fd < 0 && BUFFER_SIZE <= 0)
+	{
+		free (buffer);
+		buffer = NULL;
+		return (NULL);
+	}
+	line = read_line(&buffer, fd);
 	if (line != NULL && ft_strlen(line) == 0)
-		line = free_ptr(line);
+	{
+		free (line);
+		line = NULL;
+	}
+	if (line == NULL)
+	{
+		free (buffer);
+		buffer = NULL;
+		return (NULL);
+	}
 	return (line);
 }
 

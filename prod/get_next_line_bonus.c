@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:34:45 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/23 02:53:46 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/23 02:56:37 by greus-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-char	*get_buffer(char *buffer)
+char	**init_buffers(char **buffers)
 {
-	char	*buf;
+	char	**buf;
+	size_t	i;
 
-	buf = buffer;
-	if (buf == NULL)
+	if (buffers != NULL)
+		return (buffers);
+	else
 	{
-		buf = (char *)malloc(1);
+		buf = (char **)malloc(NUM_FDS * sizeof(char *));
 		if (buf == NULL)
 			return (NULL);
-		*(buf) = '\0';
+		i = 0;
+		while (i < NUM_FDS)
+		{
+			buf[i] = NULL;
+			i++;
+		}
+		return (buf);
 	}
-	return (buf);
+	
 }
 
 void	*update_buffer(char *buffer, char *tmp_buff, int num_bytes)
@@ -102,22 +110,51 @@ char	*read_line(char **buffer, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char			*buffer;
+	static char			**buffers;
+	char				*fd_buffer;
 	char				*line;
 
-	buffer = get_buffer(buffer);
-	if (buffer == NULL)
-		return (NULL);
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		line = NULL;
-	else
-		line = read_line(&buffer, fd);
+		return (NULL);
+	buffers = init_buffers(buffers);
+	if (buffers == NULL)
+		return (NULL);
+	fd_buffer = buffers[fd];
+	if (fd_buffer == NULL)
+	{
+		fd_buffer = (char *)malloc(1);
+		if (fd_buffer == NULL)
+			return (NULL);
+		fd_buffer[0] = '\0';
+	}
+	line = read_line(&fd_buffer, fd);
 	if (line == NULL)
-		buffer = free_ptr(buffer);
+		fd_buffer = free_ptr(fd_buffer);
 	if (line != NULL && ft_strlen(line) == 0)
 		line = free_ptr(line);
+	buffers[fd] = fd_buffer;
 	return (line);
 }
+/*
+#include <stdio.h>
+int	main(int argc, char **argv)
+{
+	int fd;
+	char *line;
+	
+	argc++;
+	line = argv[0];
+	fd = 300;
+	while (line != NULL)
+	{
+		line = get_next_line(fd);
+		printf("\t<%s>\n",line);
+		free (line);
+	}
+	printf("LINE ES NULL");
+	
+}
+*/
 
 /*
 int	main(int argc, char **argv)

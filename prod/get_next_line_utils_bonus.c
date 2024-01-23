@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 18:29:03 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/23 01:39:07 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/23 00:44:16 by greus-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 void	*free_ptr(void *ptr)
 {
