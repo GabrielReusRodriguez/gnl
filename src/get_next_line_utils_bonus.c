@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
+/*   By: greus-ro <greus-ro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 18:29:03 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/22 01:00:05 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/23 17:57:13 by greus-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-void	ft_bzero(void *ptr, size_t size)
+void	*free_ptr(char **ptr)
 {
-	size_t			i;
-	unsigned char	*uchr_ptr;
-
-	uchr_ptr = (unsigned char *)ptr;
-	i = 0;
-	while (i < size)
-	{
-		uchr_ptr[i] = '\0';
-		i++;
-	}
+	free(*ptr);
+	*ptr = NULL;
+	return (NULL);
 }
 
 size_t	ft_strlen(const char *s)
@@ -33,6 +25,8 @@ size_t	ft_strlen(const char *s)
 	size_t	size;
 
 	size = 0;
+	if (s == NULL)
+		return (size);
 	while (s[size] != '\0')
 		size++;
 	return (size);
@@ -48,7 +42,12 @@ char	*ft_substr(const char *src, size_t start, size_t len)
 	if (start + len < size)
 		size = len;
 	else
-		size = size - start;
+	{
+		if (start > size)
+			size = 0;
+		else
+			size = size - start;
+	}
 	substr = (char *)malloc(size + 1);
 	if (substr == NULL)
 		return (NULL);

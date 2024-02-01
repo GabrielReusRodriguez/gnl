@@ -3,47 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: greus-ro <greus-ro@student.42barcel>       +#+  +:+       +#+        */
+/*   By: greus-ro <greus-ro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:34:45 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/22 18:39:24 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/01/23 22:21:20 by greus-ro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <limits.h>
 #include "get_next_line_bonus.h"
 
-void	get_buffer(char **buffer, int fd)
+void	*get_buffer(char **buffers, int fd)
 {
 	size_t	i;
 
-	if (*buffer == NULL)
+	if (buffers[fd] != NULL)
+		return (buffers[fd]);
+	else
 	{
-		buffer = (char **)malloc(NUM_FDS * sizeof(char *));
-		if (buffer == NULL)
-			return ;
-		i = 0;
-		while (i < NUM_FDS)
+		buffers[fd] = (char *)malloc(1);
+		if (buffers[fd] == NULL)
 		{
-			buffer[i] = (char *)malloc(1);
-			if(buffer[i] == NULL)
-				return ;
-			*(bufer[i]) = '\0'
-			i++;
-		}	
+			i = 0;
+			while (i < OPEN_MAX)
+			{
+				if (buffers[i] != NULL)
+					free(buffers[i]);
+			}
+			return (NULL);
+		}
+		*(buffers[fd]) = '\0';
+		return (buffers[fd]);
 	}
 }
 
-void	*update_buffer(char *buffer, char *tmp_buff, int num_bytes)
+void	*update_buffer(char *buffer, char *read_buff, int num_bytes)
 {
 	char	*new_buffer;
 
 	new_buffer = NULL;
-	get_buffer(&buffer);
 	if (num_bytes > 0)
 	{
-		new_buffer = ft_strjoin(buffer, tmp_buff);
+		new_buffer = ft_strjoin(buffer, read_buff);
 		if (new_buffer == NULL)
 			return (NULL);
 		free(buffer);
@@ -53,7 +56,7 @@ void	*update_buffer(char *buffer, char *tmp_buff, int num_bytes)
 	return (new_buffer);
 }
 
-char	*get_line_from_buffer(char	**buffer, int num_bytes)
+char	*get_line_from_buffer(char	**buffer, int num_bytes_read)
 {
 	char	*line;
 	int		pos;
@@ -71,88 +74,55 @@ char	*get_line_from_buffer(char	**buffer, int num_bytes)
 		free (aux);
 		return (line);
 	}
-	if (num_bytes == 0)
+	if (num_bytes_read == 0)
 	{
 		line = ft_substr(*buffer, 0, len);
-		free(*buffer);
-		*buffer = NULL;
+		*buffer = free_ptr(buffer);
 	}
 	return (line);
 }
 
 char	*read_line(char **buffer, int fd)
 {
-	char	*chr_buffer;
+	char	*read_buffer;
 	char	*line;
 	int		num_bytes;
 
-	chr_buffer = (char *)malloc(BUFFER_SIZE + 1);
-	if (chr_buffer == NULL)
+	read_buffer = (char *)malloc(BUFFER_SIZE + 1);
+	if (read_buffer == NULL)
 		return (NULL);
 	line = NULL;
 	while (line == NULL)
 	{
-		num_bytes = read(fd, chr_buffer, BUFFER_SIZE);
+		num_bytes = read(fd, read_buffer, BUFFER_SIZE);
 		if (num_bytes < 0)
-			return (free_ptr(chr_buffer));
-		else
-		{
-			chr_buffer[num_bytes] = '\0';
-			*buffer = update_buffer(*buffer, chr_buffer, num_bytes);
-			if (*buffer == NULL)
-				return (free_ptr(chr_buffer));
-		}
+			return (free_ptr(&read_buffer));
+		read_buffer[num_bytes] = '\0';
+		*buffer = update_buffer(*buffer, read_buffer, num_bytes);
+		if (*buffer == NULL)
+			return (free_ptr(&read_buffer));
 		line = get_line_from_buffer(buffer, num_bytes);
 	}
-	free(chr_buffer);
+	free(read_buffer);
 	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	static char			*buffer;
+	static char			*buffers[OPEN_MAX];
+	char				*fd_buffer;
 	char				*line;
 
-	get_buffer(&buffer);
-	if (buffer == NULL)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (fd < 0 && BUFFER_SIZE <= 0)
-	{
-		free (buffer);
-		buffer = NULL;
+	fd_buffer = get_buffer(buffers, fd);
+	if (fd_buffer == NULL)
 		return (NULL);
-	}
-	line = read_line(&buffer, fd);
-	if (line != NULL && ft_strlen(line) == 0)
-	{
-		free (line);
-		line = NULL;
-	}
+	line = read_line(&fd_buffer, fd);
 	if (line == NULL)
-	{
-		free (buffer);
-		buffer = NULL;
-		return (NULL);
-	}
+		free_ptr(&fd_buffer);
+	if (line != NULL && ft_strlen(line) == 0)
+		free_ptr(&line);
+	buffers[fd] = fd_buffer;
 	return (line);
 }
-
-/*
-int	main(int argc, char **argv)
-{
-	int fd;
-	char *line;
-	
-	argc++;
-	line = argv[0];
-	fd = 1;
-	while (line != NULL)
-	{
-		line = get_next_line(fd);
-		printf("\t<%s>\n",line);
-		free (line);
-	}
-	printf("LINE ES NULL");
-	
-}
-*/
