@@ -6,7 +6,7 @@
 /*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:34:45 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/07/02 22:21:05 by gabriel          ###   ########.fr       */
+/*   Updated: 2024/07/02 22:51:47 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <limits.h>
 
 #include "get_next_line_bonus.h"
-
 
 void	*get_buffer(char **buffers, int fd)
 {
