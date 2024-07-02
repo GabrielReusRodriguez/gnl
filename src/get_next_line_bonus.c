@@ -3,17 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: greus-ro <greus-ro@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gabriel <gabriel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 16:34:45 by greus-ro          #+#    #+#             */
-/*   Updated: 2024/01/23 22:21:20 by greus-ro         ###   ########.fr       */
+/*   Updated: 2024/07/02 22:21:05 by gabriel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <limits.h>
+
 #include "get_next_line_bonus.h"
+
 
 void	*get_buffer(char **buffers, int fd)
 {
@@ -27,7 +30,7 @@ void	*get_buffer(char **buffers, int fd)
 		if (buffers[fd] == NULL)
 		{
 			i = 0;
-			while (i < OPEN_MAX)
+			while (i < FOPEN_MAX)
 			{
 				if (buffers[i] != NULL)
 					free(buffers[i]);
@@ -109,7 +112,7 @@ char	*read_line(char **buffer, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char			*buffers[OPEN_MAX];
+	static char			*buffers[FOPEN_MAX];
 	char				*fd_buffer;
 	char				*line;
 
