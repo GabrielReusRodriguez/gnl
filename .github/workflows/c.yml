@@ -19,7 +19,7 @@ jobs:
     - name: make
       run: make
   norminette:
-    run-on: ubuntu-lastest
+    runs-on: ubuntu-lastest
     steps:
     - name: 42 Norminette
         # You may pin to the exact commit or the version.
