@@ -17,14 +17,6 @@ jobs:
     - uses: actions/checkout@v4
     - name: make
       run: make
-
-  norminette:
-
-    runs-on: ubuntu-lastest
-    steps:
-        # You may pin to the exact commit or the version.
-        # uses: alexandregv/norminette-action@99553916aada3d882aaa35cd1fd51b433234749e
-    - uses: actions/checkout@v4
     - uses: alexandregv/norminette-action@v3.3.53
       with:
         flags: 'src/' 'inc/'  # default is .
